@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     protected int turnAngle = 1;
 
-    protected float TurnAngle()
+    protected float Steer()
     {
 #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.A))

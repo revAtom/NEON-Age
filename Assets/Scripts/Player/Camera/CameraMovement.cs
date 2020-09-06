@@ -21,12 +21,11 @@ public class CameraMovement : MonoBehaviour
     public Vector3 offset;
     #endregion
 
-    void Update()
+    void LateUpdate()
     {
         Vector3 desiredPosition = target.position + offset;
-        Vector3 smootherPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
 
-        transform.position = smootherPosition;
+        transform.position = desiredPosition;
 
        transform.LookAt(target);
     }

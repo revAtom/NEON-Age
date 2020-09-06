@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerMovement : PlayerInput
 {
     #region Variables
@@ -11,98 +11,123 @@ public class PlayerMovement : PlayerInput
     [TabGroup("Movement")]
     [GUIColor(.3f, 1, .6f)]
     [Range(0, 3000)]
-    public int forwardAccel = 1, maxSpeed = 300, turnsStrength = 100, mulitipier = 1200;
-
-    [TabGroup("Physics")]
-    [GUIColor(1.6f, .4f, .6f)]
-    [Range(.1f, 20)]
-    public float gravityForce = 10f, dragValue = .3f;
-
-    [TabGroup("Gravity")]
-    [GUIColor(.75f, .1f, .6f)]
-    [ShowInInspector]
-    private bool grounded;
-
-    [TabGroup("Gravity")]
-    [GUIColor(.75f, .1f, .6f)]
-    public LayerMask whatIsGround;
-
-    [GUIColor(.75f, .1f, .6f)]
-    [TabGroup("Gravity")]
-    [Range(.1f, 3)]
-    public float groundRayLength = .5f;
-
-    [TabGroup("Gravity")]
-    [GUIColor(.75f, .1f, .6f)]
-    [SceneObjectsOnly]
-    public Transform groundRayPoint;
+    public float speedForce = 1, steerPower = 1500, Speed;
 
     [TabGroup("Visualise")]
     [GUIColor(.8f, .3f, .3f)]
     [SceneObjectsOnly]
     public Animator playerVisualiseAnim;
 
-    [TabGroup("Modifiers")]
-    [GUIColor(.74f, .75f, .6f)]
-    [Range(500, 1500)]
-    public int multiplierModifierLow = 500, multiplierModifierMedium = 1200;
+    [TabGroup("Gravity")]
+    [GUIColor(.788f, .31f, .788f)]
+    public LayerMask waterLayer;
 
+    [TabGroup("Gravity")]
+    [GUIColor(.788f, .31f, .788f)]
+    [Range(0, 2)]
+    public float gravityScale, rayDistance, Drag;
+
+    [TabGroup("Gravity")]
+    [GUIColor(.788f, .31f, .788f)]
+    [ShowInInspector]
+    private bool isGrounded;
+
+    [TabGroup("Gravity")]
+    [GUIColor(.788f, .31f, .788f)]
+    [ChildGameObjectsOnly]
+    public Transform boatBottom;
+
+    private float speedBooster, speedUnBooster;
     #endregion
     void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+
+        Speed = speedForce;
+
+        speedBooster = Speed * 4;
+        speedUnBooster = Speed;
     }
-    void Update()
+    #region Animation
+    private void Update()
     {
-        if (grounded)
-            TurnPlayer(TurnAngle());
-
-        if (TurnAngle() != 0)
+        if (Steer() != 0)
         {
-            mulitipier = multiplierModifierLow;
-
             playerVisualiseAnim.SetBool("IsTurn", true);
-        }
-        else if (TurnAngle() == 0)
-        {
-            mulitipier = multiplierModifierMedium;
 
-            playerVisualiseAnim.SetBool("IsTurn", false);
-        }
+            playerVisualiseAnim.SetFloat("angleOfTurn", Steer());
 
-    }
-    #region Movement
-    protected void TurnPlayer(float Angle)
-    {
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles
-    + (new Vector3(0, Angle * turnsStrength * Time.deltaTime, 0) / 1.5f));
-
-        playerVisualiseAnim.SetFloat("angleOfTurn", Angle);
-    }
-    void FixedUpdate()
-    {
-        grounded = false;
-        RaycastHit hit;
-
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, whatIsGround))
-        {
-            grounded = true;
-
-            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-        }
-
-        if (grounded)
-        {
-            playerRb.drag = dragValue;
+            speedForce = Speed / 1.2f;
         }
         else
         {
-            playerRb.drag = (dragValue / 3);
+            playerRb.angularVelocity = Vector3.zero;
 
-            playerRb.AddRelativeForce(Vector3.up * -gravityForce * 1000 * Time.fixedDeltaTime, ForceMode.Force);
+            speedForce = Speed;
+
+            playerVisualiseAnim.SetBool("IsTurn", false);
         }
-
- 
     }
     #endregion
+    private void FixedUpdate()
+    {
+        #region Gravity
+        isGrounded = false;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(boatBottom.position, -transform.up, out hit, rayDistance, waterLayer))
+        {
+            isGrounded = true;
+
+            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+        }
+        #endregion
+
+        #region Movement
+        this.gameObject.transform.rotation = playerRb.rotation;
+
+        if (isGrounded)
+        {
+            playerRb.drag = Drag;
+
+            playerRb.AddTorque(transform.up * Steer() * steerPower * Time.fixedDeltaTime, ForceMode.Acceleration);
+        }
+        else
+        {
+            playerRb.drag = Drag / 2f;
+
+            playerRb.AddForce(Physics.gravity * Time.fixedDeltaTime * gravityScale * 10000f);
+        }
+
+        playerRb.AddRelativeForce(Vector3.forward * Speed * Time.fixedDeltaTime * 1000f);
+
+        if (playerRb.velocity.magnitude > Speed)
+            playerRb.velocity = Vector3.ClampMagnitude(playerRb.velocity, Speed);
+
+        #endregion
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Rump"))
+        {
+            playerRb.drag = .5f;
+
+            Speed = speedBooster;
+        }
+
+        else if (collision.gameObject.CompareTag("Missile"))
+            Debug.Log("Dead");
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Rump"))
+        {
+            playerRb.drag = 1f;
+
+            Speed = speedUnBooster;
+        }
+    }
 }
