@@ -6,9 +6,6 @@ public class MissileSpawner : MonoBehaviour
 {
     private void Update()
     {
-        //for (int i = 0; i < ; i++)
-        //{
-
-        //}
+ 
     }
 }

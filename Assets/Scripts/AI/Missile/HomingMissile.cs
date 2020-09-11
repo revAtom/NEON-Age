@@ -30,7 +30,7 @@ public class HomingMissile : MonoBehaviour
 
         missileRb.velocity = missileLocalTransform.forward * missileSpeed;
 
-        var torpedoTargetRot = Quaternion.LookRotation(missileTarget.position - missileLocalTransform.position);
+        var torpedoTargetRot = Quaternion.LookRotation(missileTarget.position + new Vector3(0, 0, 10) - missileLocalTransform.position);
 
         missileRb.MoveRotation(Quaternion.RotateTowards(missileLocalTransform.rotation, torpedoTargetRot, missileTurnSpeed));
 

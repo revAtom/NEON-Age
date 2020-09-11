@@ -38,6 +38,7 @@ public class PlayerMovement : PlayerInput
     public Transform boatBottom;
 
     private float speedBooster, speedUnBooster;
+
     #endregion
     void Awake()
     {
@@ -95,7 +96,7 @@ public class PlayerMovement : PlayerInput
         }
         else
         {
-            playerRb.drag = Drag / 2f;
+            playerRb.drag = Drag / 1.5f;
 
             playerRb.AddForce(Physics.gravity * Time.fixedDeltaTime * gravityScale * 10000f);
         }
@@ -112,21 +113,14 @@ public class PlayerMovement : PlayerInput
     {
         if (collision.gameObject.CompareTag("Rump"))
         {
-            playerRb.drag = .5f;
-
             Speed = speedBooster;
         }
-
-        else if (collision.gameObject.CompareTag("Missile"))
-            Debug.Log("Dead");
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Rump"))
         {
-            playerRb.drag = 1f;
-
             Speed = speedUnBooster;
         }
     }

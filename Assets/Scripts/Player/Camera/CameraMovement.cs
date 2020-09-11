@@ -10,12 +10,6 @@ public class CameraMovement : MonoBehaviour
     [SceneObjectsOnly]
     public Transform target;
 
-   
-    [BoxGroup("Camera Follow")]
-    [GUIColor(.7f, .3f, .35f)]
-    [Range(.1f, 3)]
-    public float smoothSpeed = .125f;
-
     [BoxGroup("Camera Follow")]
     [GUIColor(.7f, .3f, .35f)]
     public Vector3 offset;
@@ -23,6 +17,9 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
+        if (target == null)
+            return;
+
         Vector3 desiredPosition = target.position + offset;
 
         transform.position = desiredPosition;
