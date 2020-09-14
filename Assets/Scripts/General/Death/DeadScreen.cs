@@ -10,12 +10,15 @@ public class DeadScreen : MonoBehaviour {
     [BoxGroup("DeathUI")]
     [GUIColor(.6f, .75f, .5f)]
     public GameObject deathScreen;
+
     public void DestroyPlayer()
     {
         Destroy(player);
+
+        ScoreCore.instance.isPlaying = false;
     }
     public void OpenDeathMenu()
     {
         deathScreen.SetActive(true);
-    }
+    } 
 }

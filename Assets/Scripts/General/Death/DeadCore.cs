@@ -23,11 +23,15 @@ public class DeadCore : MonoBehaviour
             {
                 cameraAnim.SetTrigger("IsShaking");
             }
+            else
+            {
+                Destroy(this.gameObject);
+            }
 
             GameObject particle = Instantiate(particleObj, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 
             Destroy(particle, 2f);
         }
-    } 
+    }
 }
 
