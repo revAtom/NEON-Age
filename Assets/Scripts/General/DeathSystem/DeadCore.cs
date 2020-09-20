@@ -14,8 +14,9 @@ public class DeadCore : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dead"))
-        {
+        {   
 
+            #region DeathProces
             if (collision.gameObject.layer == 11)
                 Destroy(collision.gameObject);
 
@@ -25,12 +26,16 @@ public class DeadCore : MonoBehaviour
             }
             else
             {
+                ScoreCore.instance.RecountMissiles();
+                SpawnCore.instance.enemyCount--;
+
                 Destroy(this.gameObject);
             }
 
             GameObject particle = Instantiate(particleObj, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 
-            Destroy(particle, 2f);
+            Destroy(particle, 1f);
+            #endregion
         }
     }
 }
