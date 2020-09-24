@@ -10,15 +10,14 @@ public class DeadCore : MonoBehaviour
     [BoxGroup("Camera")]
     [GUIColor(.5f, .5f, .5f)]
     public Animator cameraAnim;
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dead"))
-        {   
-
-            #region DeathProces
+        {
             if (collision.gameObject.layer == 11)
                 Destroy(collision.gameObject);
+
+            #region DeathProcess
 
             if (cameraAnim != null)
             {
@@ -29,14 +28,14 @@ public class DeadCore : MonoBehaviour
                 ScoreCore.instance.RecountMissiles();
                 SpawnCore.instance.enemyCount--;
 
-                Destroy(this.gameObject);
+                Destroy(this.gameObject, 1f);
             }
-
             GameObject particle = Instantiate(particleObj, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 
             Destroy(particle, 1f);
-            #endregion
         }
+        #endregion
     }
 }
+  
 

@@ -24,6 +24,8 @@ public class SpawnCore : MonoBehaviour
     [BoxGroup("SpawnCore")]
     [GUIColor(.9f, .7f, .8f)]
     public static SpawnCore instance;
+
+    bool coroutineFinished;/*
     private void Awake()
     {
         if (instance == null)
@@ -36,32 +38,29 @@ public class SpawnCore : MonoBehaviour
 
     void Update()
     {
-        int _time = (int)Time.time;
-
-        if (delayToUpgrade <= _time)
+        if (coroutineFinished)
         {
-            Debug.Log("DELAY END");
-            delayToUpgrade = _time + 20;
+            StartCoroutine(DificultUpgrader());
 
-            DificultUpgrader();
+            coroutineFinished = false;
         }
     }
 
-    [Button]
-    void DificultUpgrader()
+    IEnumerator DificultUpgrader()
     {
-        Debug.Log("UPGRADED");
+        yield return new WaitForSeconds(20);
 
         maxEnemyCount++;
         delayTime /= 1.2f;
+
+        coroutineFinished = true;
     }
     IEnumerator MissileSpawner()
     {
-
+        
         while (enemyCount <= maxEnemyCount)
         {
-            if (spawnPoints != null)
-            {
+        
                 int randomPoint = Random.Range(0, spawnPoints.Length);
                 int missileSpawnChance = Random.Range(0, 10);
 
@@ -74,15 +73,19 @@ public class SpawnCore : MonoBehaviour
                 else if (missileSpawnChance > 6 && missileSpawnChance <= 10)
                     currentMissile = 0;
 
+            if (spawnPoints[randomPoint] != null)
+            {
                 Instantiate(missilePrefabs[currentMissile], spawnPoints[randomPoint].position, Quaternion.identity);
-
-                Debug.Log("SPAWN");
+            }
+            else
+            {
+                break;
+            }
 
                 enemyCount++;
-                yield return new WaitForSeconds(delayTime);
-            }
+                yield return new WaitForSeconds(delayTime);            
         }
-
+        Debug.Log("something");
         StartCoroutine(MissileSpawner());
-    }
+    }*/
 }
