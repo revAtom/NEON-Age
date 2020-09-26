@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Rump
   - Dead
+  - x1Icon
+  - x2Icon
+  - x4Icon
+  - x6Icon
   layers:
   - Default
   - TransparentFX
