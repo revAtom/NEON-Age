@@ -25,7 +25,7 @@ public class SpawnCore : MonoBehaviour
     [GUIColor(.9f, .7f, .8f)]
     public static SpawnCore instance;
 
-    bool coroutineFinished;/*
+    bool coroutineFinished;
     private void Awake()
     {
         if (instance == null)
@@ -77,15 +77,11 @@ public class SpawnCore : MonoBehaviour
             {
                 Instantiate(missilePrefabs[currentMissile], spawnPoints[randomPoint].position, Quaternion.identity);
             }
-            else
-            {
-                break;
-            }
 
                 enemyCount++;
                 yield return new WaitForSeconds(delayTime);            
         }
         Debug.Log("something");
         StartCoroutine(MissileSpawner());
-    }*/
+    }
 }
