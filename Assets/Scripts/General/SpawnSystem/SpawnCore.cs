@@ -57,29 +57,30 @@ public class SpawnCore : MonoBehaviour
     }
     IEnumerator MissileSpawner()
     {
-        
+
         while (enemyCount <= maxEnemyCount)
         {
-        
-                int randomPoint = Random.Range(0, spawnPoints.Length);
-                int missileSpawnChance = Random.Range(0, 10);
+            int randomPoint = Random.Range(0, spawnPoints.Length);
+            int missileSpawnChance = Random.Range(0, 10);
 
-                if (missileSpawnChance <= 2)
-                    currentMissile = 2;
+            if (spawnPoints[randomPoint] == null)
+                this.StopAllCoroutines();
 
-                else if (missileSpawnChance > 2 && missileSpawnChance <= 6)
-                    currentMissile = 1;
+            if (missileSpawnChance <= 2)
+                currentMissile = 2;
 
-                else if (missileSpawnChance > 6 && missileSpawnChance <= 10)
-                    currentMissile = 0;
+            else if (missileSpawnChance > 2 && missileSpawnChance <= 6)
+                currentMissile = 1;
 
-            if (spawnPoints[randomPoint] != null)
-            {
-                Instantiate(missilePrefabs[currentMissile], spawnPoints[randomPoint].position, Quaternion.identity);
-            }
+            else if (missileSpawnChance > 6 && missileSpawnChance <= 10)
+                currentMissile = 0;
 
-                enemyCount++;
-                yield return new WaitForSeconds(delayTime);            
+
+            Instantiate(missilePrefabs[currentMissile], spawnPoints[randomPoint].position, Quaternion.identity);
+
+
+            enemyCount++;
+            yield return new WaitForSeconds(delayTime);
         }
         Debug.Log("something");
         StartCoroutine(MissileSpawner());
