@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WheelOfFortune : MonoBehaviour
 {
-    public GameObject[] Icons;
+  /*  public GameObject[] Icons;
 
 
     int iconToSpawn = 0;
@@ -22,5 +22,5 @@ public class WheelOfFortune : MonoBehaviour
     public void DeleteIcons()
     {
         Destroy(this.gameObject);
-    }
+    }*/
 }

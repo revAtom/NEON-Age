@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 5655632644612250650}
   - component: {fileID: 5951674760761675950}
   - component: {fileID: 8444512420238965374}
-  - component: {fileID: 3745925828356311936}
-  - component: {fileID: -7442498796496968632}
-  - component: {fileID: -207676299836470377}
+  - component: {fileID: 8536057718253214301}
+  - component: {fileID: -6270056017868405464}
   m_Layer: 5
   m_Name: x6Icon
   m_TagString: x6Icon
@@ -164,7 +163,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 80, y: 80}
   m_EdgeRadius: 0
---- !u!114 &3745925828356311936
+--- !u!114 &8536057718253214301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,33 +172,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5605029903650119108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ad95d369f1199a4381d9119a3c5a197, type: 3}
+  m_Script: {fileID: 11500000, guid: d9937faae3d314844a08cf2366cde0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icons:
-  - {fileID: 1519651014967784207, guid: fd850063ed36fbb4abdb4bddb45785b0, type: 3}
-  - {fileID: 3466941283277369474, guid: dffd2f78643a654498cfc3091dd50d06, type: 3}
-  - {fileID: 5787033260831737052, guid: eacd1bef45181b34f9b3bf15f260de2e, type: 3}
---- !u!95 &-7442498796496968632
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605029903650119108}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99e597ac8378fcc439dab73f2f8e32bf, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &-207676299836470377
+--- !u!50 &-6270056017868405464
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -207,16 +183,16 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5605029903650119108}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
